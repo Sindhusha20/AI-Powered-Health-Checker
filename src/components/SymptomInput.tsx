@@ -41,15 +41,26 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-center text-2xl text-foreground">
-          Describe Your Symptoms
-        </CardTitle>
-        <p className="text-center text-muted-foreground">
-          Select from common symptoms or add your own
-        </p>
-      </CardHeader>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="bg-card border-b border-border p-4">
+        <div className="max-w-lg mx-auto">
+          <h1 className="text-xl font-semibold text-foreground text-center">Symptom Check</h1>
+          <p className="text-sm text-muted-foreground text-center">Select your symptoms</p>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-lg mx-auto p-4">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-center text-xl text-foreground">
+              How are you feeling?
+            </CardTitle>
+            <p className="text-center text-muted-foreground text-sm">
+              Select from common symptoms or add your own
+            </p>
+          </CardHeader>
       <CardContent className="space-y-6">
         {/* Custom symptom input */}
         <form onSubmit={handleSubmit} className="flex gap-2">
@@ -117,7 +128,9 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
         >
           Analyze Symptoms
         </Button>
-      </CardContent>
-    </Card>
+          </CardContent>
+        </Card>
+      </main>
+    </div>
   );
 };
