@@ -113,9 +113,8 @@ export const SettingsScreen = ({ onBack }: SettingsScreenProps) => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="es">Español</SelectItem>
-                  <SelectItem value="fr">Français</SelectItem>
-                  <SelectItem value="pt">Português</SelectItem>
+                  <SelectItem value="hi">हिंदी</SelectItem>
+                  <SelectItem value="te">తెలుగు</SelectItem>
                 </SelectContent>
               </Select>
             </div>

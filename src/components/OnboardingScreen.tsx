@@ -13,9 +13,8 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
 
   const languages = [
     { code: 'en', name: 'English' },
-    { code: 'es', name: 'Español' },
-    { code: 'fr', name: 'Français' },
-    { code: 'pt', name: 'Português' },
+    { code: 'hi', name: 'हिंदी' },
+    { code: 'te', name: 'తెలుగు' },
   ];
 
   return (
