@@ -3,7 +3,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Plus, X } from 'lucide-react';
+import { Label } from '@/components/ui/label';
+import { Plus, X, Thermometer } from 'lucide-react';
 
 interface SymptomInputProps {
   onAnalyze: (symptoms: string[]) => void;
@@ -18,6 +19,7 @@ const commonSymptoms = [
 export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
   const [currentSymptom, setCurrentSymptom] = useState('');
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+  const [feverTemperature, setFeverTemperature] = useState('');
 
   const addSymptom = (symptom: string) => {
     if (symptom.trim() && !selectedSymptoms.includes(symptom.trim())) {
@@ -25,6 +27,8 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
       setCurrentSymptom('');
     }
   };
+
+  const hasFever = selectedSymptoms.some(s => s.toLowerCase() === 'fever');
 
   const removeSymptom = (symptom: string) => {
     setSelectedSymptoms(selectedSymptoms.filter(s => s !== symptom));
@@ -116,6 +120,38 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
                 </Badge>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* Fever temperature input */}
+        {hasFever && (
+          <div className="space-y-2 p-4 bg-muted/50 rounded-lg border border-border">
+            <div className="flex items-center gap-2 mb-2">
+              <Thermometer className="w-4 h-4 text-primary" />
+              <Label className="text-sm font-medium text-foreground">
+                Fever Temperature (optional)
+              </Label>
+            </div>
+            <div className="flex gap-2 items-center">
+              <Input
+                type="number"
+                step="0.1"
+                placeholder="e.g., 38.5"
+                value={feverTemperature}
+                onChange={(e) => setFeverTemperature(e.target.value)}
+                className="flex-1"
+              />
+              <span className="text-sm text-muted-foreground">°C</span>
+            </div>
+            {feverTemperature && (
+              <p className="text-xs text-muted-foreground">
+                {parseFloat(feverTemperature) >= 38 
+                  ? '🔴 High fever - seek medical attention' 
+                  : parseFloat(feverTemperature) >= 37.5 
+                  ? '🟡 Mild fever' 
+                  : '🟢 Normal temperature'}
+              </p>
+            )}
           </div>
         )}
 
