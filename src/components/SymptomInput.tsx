@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Plus, X, Thermometer } from 'lucide-react';
 
 interface SymptomInputProps {
@@ -20,6 +21,7 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
   const [currentSymptom, setCurrentSymptom] = useState('');
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const [feverTemperature, setFeverTemperature] = useState('');
+  const [temperatureUnit, setTemperatureUnit] = useState<'C' | 'F'>('C');
 
   const addSymptom = (symptom: string) => {
     if (symptom.trim() && !selectedSymptoms.includes(symptom.trim())) {
@@ -125,31 +127,55 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
 
         {/* Fever temperature input */}
         {hasFever && (
-          <div className="space-y-2 p-4 bg-muted/50 rounded-lg border border-border">
-            <div className="flex items-center gap-2 mb-2">
+          <div className="space-y-3 p-4 bg-muted/50 rounded-lg border border-border">
+            <div className="flex items-center gap-2">
               <Thermometer className="w-4 h-4 text-primary" />
               <Label className="text-sm font-medium text-foreground">
                 Fever Temperature (optional)
               </Label>
             </div>
+            
+            <RadioGroup 
+              value={temperatureUnit} 
+              onValueChange={(value) => setTemperatureUnit(value as 'C' | 'F')}
+              className="flex gap-4"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="C" id="celsius" />
+                <Label htmlFor="celsius" className="cursor-pointer">Celsius (°C)</Label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="F" id="fahrenheit" />
+                <Label htmlFor="fahrenheit" className="cursor-pointer">Fahrenheit (°F)</Label>
+              </div>
+            </RadioGroup>
+
             <div className="flex gap-2 items-center">
               <Input
                 type="number"
                 step="0.1"
-                placeholder="e.g., 38.5"
+                placeholder={temperatureUnit === 'C' ? 'e.g., 38.5' : 'e.g., 101.3'}
                 value={feverTemperature}
                 onChange={(e) => setFeverTemperature(e.target.value)}
                 className="flex-1"
               />
-              <span className="text-sm text-muted-foreground">°C</span>
+              <span className="text-sm text-muted-foreground">°{temperatureUnit}</span>
             </div>
+            
             {feverTemperature && (
               <p className="text-xs text-muted-foreground">
-                {parseFloat(feverTemperature) >= 38 
-                  ? '🔴 High fever - seek medical attention' 
-                  : parseFloat(feverTemperature) >= 37.5 
-                  ? '🟡 Mild fever' 
-                  : '🟢 Normal temperature'}
+                {temperatureUnit === 'C' 
+                  ? (parseFloat(feverTemperature) >= 38 
+                      ? '🔴 High fever - seek medical attention' 
+                      : parseFloat(feverTemperature) >= 37.5 
+                      ? '🟡 Mild fever' 
+                      : '🟢 Normal temperature')
+                  : (parseFloat(feverTemperature) >= 100.4 
+                      ? '🔴 High fever - seek medical attention' 
+                      : parseFloat(feverTemperature) >= 99.5 
+                      ? '🟡 Mild fever' 
+                      : '🟢 Normal temperature')
+                }
               </p>
             )}
           </div>
