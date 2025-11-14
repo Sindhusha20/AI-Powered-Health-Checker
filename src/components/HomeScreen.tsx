@@ -20,7 +20,7 @@ export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: H
               <Heart className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-foreground">HealthCheck AI</h1>
+              <h1 className="text-xl font-semibold text-foreground">AI-Powered Health Checker</h1>
               <p className="text-xs text-muted-foreground">AI-Powered Health Assistant</p>
             </div>
           </div>

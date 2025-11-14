@@ -174,7 +174,7 @@ export const SettingsScreen = ({ onBack }: SettingsScreenProps) => {
 
         {/* App Info */}
         <div className="text-center text-xs text-muted-foreground space-y-1">
-          <p>HealthCheck AI v1.0.0</p>
+          <p>AI-Powered Health Checker v1.0.0</p>
           <p>© 2024 - Made with care for your health</p>
         </div>
       </main>

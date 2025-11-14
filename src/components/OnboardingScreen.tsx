@@ -28,7 +28,7 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
 
           {/* App Title */}
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold text-foreground">HealthCheck AI</h1>
+            <h1 className="text-2xl font-bold text-foreground">AI-Powered Health Checker</h1>
             <p className="text-muted-foreground text-sm leading-relaxed">
               Check your symptoms anytime, anywhere – even offline
             </p>
