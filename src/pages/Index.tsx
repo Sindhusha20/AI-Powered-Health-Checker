@@ -9,10 +9,12 @@ import { SettingsScreen } from '@/components/SettingsScreen';
 import { AppointmentBooking } from '@/components/AppointmentBooking';
 import { analyzeSymptoms } from '@/utils/aiAnalysis';
 import { AnalysisData } from '@/components/AnalysisResult';
+import { useAuth } from '@/hooks/useAuth';
 
 type ViewState = 'onboarding' | 'home' | 'symptoms' | 'results' | 'advice' | 'history' | 'settings' | 'booking' | 'loading';
 
 const Index = () => {
+  const { user } = useAuth();
   const [view, setView] = useState<ViewState>('onboarding');
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
 
@@ -27,7 +29,7 @@ const Index = () => {
   const handleSymptomAnalysis = async (symptoms: string[]) => {
     setView('loading');
     try {
-      const result = await analyzeSymptoms(symptoms);
+      const result = await analyzeSymptoms(symptoms, user?.id);
       setAnalysis(result);
       setView('results');
     } catch (error) {

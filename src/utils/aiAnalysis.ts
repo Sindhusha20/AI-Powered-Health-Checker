@@ -1,7 +1,8 @@
 import { AnalysisData, TriageLevel, Condition } from '@/components/AnalysisResult';
+import { supabase } from '@/integrations/supabase/client';
 
-// Simulated AI analysis - In a real app, this would connect to an edge AI model
-export const analyzeSymptoms = async (symptoms: string[]): Promise<AnalysisData> => {
+// Simulated AI analysis with database storage
+export const analyzeSymptoms = async (symptoms: string[], userId?: string): Promise<AnalysisData> => {
   // Simulate processing delay
   await new Promise(resolve => setTimeout(resolve, 1500));
 
@@ -82,10 +83,32 @@ export const analyzeSymptoms = async (symptoms: string[]): Promise<AnalysisData>
     ];
   }
 
-  return {
+  const analysisData: AnalysisData = {
     triage,
     conditions,
     recommendations,
     symptoms
   };
+
+  // Save to database if user is authenticated
+  if (userId) {
+    try {
+      const { error } = await supabase.from('symptom_analyses').insert({
+        user_id: userId,
+        symptoms: symptoms,
+        triage_level: triage,
+        conditions: conditions as any,
+        recommendations: recommendations
+      });
+      
+      if (error) {
+        console.error('Failed to save analysis:', error);
+      }
+    } catch (error) {
+      console.error('Failed to save analysis:', error);
+      // Continue even if saving fails
+    }
+  }
+
+  return analysisData;
 };

@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Stethoscope, History, Settings, Shield, Clock } from 'lucide-react';
+import { Heart, Stethoscope, History, Settings, Shield, Clock, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 interface HomeScreenProps {
   onCheckSymptoms: () => void;
@@ -10,6 +12,8 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: HomeScreenProps) => {
+  const { user } = useAuth();
+  
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -24,10 +28,19 @@ export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: H
               <p className="text-xs text-muted-foreground">AI-Powered Health Assistant</p>
             </div>
           </div>
-          <Badge variant="secondary" className="flex items-center gap-1">
-            <Shield className="w-3 h-3" />
-            Offline
-          </Badge>
+          {!user ? (
+            <Link to="/auth">
+              <Button variant="outline" size="sm">
+                <User className="w-4 h-4 mr-2" />
+                Sign In
+              </Button>
+            </Link>
+          ) : (
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <Shield className="w-3 h-3" />
+              Signed In
+            </Badge>
+          )}
         </div>
       </header>
 
