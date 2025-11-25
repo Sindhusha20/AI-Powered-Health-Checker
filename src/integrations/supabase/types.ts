@@ -14,7 +14,109 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      healthcare_api_logs: {
+        Row: {
+          api_endpoint: string
+          created_at: string | null
+          id: string
+          request_data: Json | null
+          response_data: Json | null
+          status_code: number | null
+          user_id: string | null
+        }
+        Insert: {
+          api_endpoint: string
+          created_at?: string | null
+          id?: string
+          request_data?: Json | null
+          response_data?: Json | null
+          status_code?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          api_endpoint?: string
+          created_at?: string | null
+          id?: string
+          request_data?: Json | null
+          response_data?: Json | null
+          status_code?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "healthcare_api_logs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          date_of_birth: string | null
+          full_name: string | null
+          id: string
+          phone_number: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date_of_birth?: string | null
+          full_name?: string | null
+          id: string
+          phone_number?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date_of_birth?: string | null
+          full_name?: string | null
+          id?: string
+          phone_number?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      symptom_analyses: {
+        Row: {
+          analyzed_at: string | null
+          conditions: Json
+          id: string
+          recommendations: string[]
+          symptoms: string[]
+          triage_level: string
+          user_id: string
+        }
+        Insert: {
+          analyzed_at?: string | null
+          conditions: Json
+          id?: string
+          recommendations: string[]
+          symptoms: string[]
+          triage_level: string
+          user_id: string
+        }
+        Update: {
+          analyzed_at?: string | null
+          conditions?: Json
+          id?: string
+          recommendations?: string[]
+          symptoms?: string[]
+          triage_level?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "symptom_analyses_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
