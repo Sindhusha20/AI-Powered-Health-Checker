@@ -1,0 +1,27 @@
+# Python ML Backend Dependencies
+# For AI-Powered Health Checker
+
+# Core ML Framework
+tensorflow==2.15.0
+tensorflow-lite==2.15.0
+
+# Data Processing
+numpy==1.24.3
+pandas==2.0.3
+
+# Medical Data Processing
+scikit-learn==1.3.0
+nltk==3.8.1
+
+# API Integration
+flask==3.0.0
+requests==2.31.0
+
+# Healthcare Data APIs
+fhir.resources==7.1.0
+
+# Model Optimization
+tf-keras-vis==0.8.5
+
+# Data Privacy & Security
+cryptography==41.0.7
