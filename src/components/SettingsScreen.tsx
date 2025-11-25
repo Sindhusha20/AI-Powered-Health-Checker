@@ -106,15 +106,26 @@ export const SettingsScreen = ({ onBack }: SettingsScreenProps) => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Language</Label>
+              <Label>Language / भाषा</Label>
               <Select defaultValue="en">
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="en">English</SelectItem>
-                  <SelectItem value="hi">हिंदी</SelectItem>
-                  <SelectItem value="te">తెలుగు</SelectItem>
+                <SelectContent className="max-h-60">
+                  <SelectItem value="en">English (अंग्रेज़ी)</SelectItem>
+                  <SelectItem value="hi">हिंदी (Hindi)</SelectItem>
+                  <SelectItem value="bn">বাংলা (Bengali)</SelectItem>
+                  <SelectItem value="te">తెలుగు (Telugu)</SelectItem>
+                  <SelectItem value="mr">मराठी (Marathi)</SelectItem>
+                  <SelectItem value="ta">தமிழ் (Tamil)</SelectItem>
+                  <SelectItem value="gu">ગુજરાતી (Gujarati)</SelectItem>
+                  <SelectItem value="kn">ಕನ್ನಡ (Kannada)</SelectItem>
+                  <SelectItem value="ml">മലയാളം (Malayalam)</SelectItem>
+                  <SelectItem value="pa">ਪੰਜਾਬੀ (Punjabi)</SelectItem>
+                  <SelectItem value="or">ଓଡ଼ିଆ (Odia)</SelectItem>
+                  <SelectItem value="as">অসমীয়া (Assamese)</SelectItem>
+                  <SelectItem value="ur">اردو (Urdu)</SelectItem>
+                  <SelectItem value="sa">संस्कृतम् (Sanskrit)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
