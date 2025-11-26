@@ -12,9 +12,20 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
 
   const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'hi', name: 'हिंदी' },
-    { code: 'te', name: 'తెలుగు' },
+    { code: 'en', name: 'English (अंग्रेज़ी)' },
+    { code: 'hi', name: 'हिंदी (Hindi)' },
+    { code: 'bn', name: 'বাংলা (Bengali)' },
+    { code: 'te', name: 'తెలుగు (Telugu)' },
+    { code: 'mr', name: 'मराठी (Marathi)' },
+    { code: 'ta', name: 'தமிழ் (Tamil)' },
+    { code: 'gu', name: 'ગુજરાતી (Gujarati)' },
+    { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
+    { code: 'ml', name: 'മലയാളം (Malayalam)' },
+    { code: 'pa', name: 'ਪੰਜਾਬੀ (Punjabi)' },
+    { code: 'or', name: 'ଓଡ଼ିଆ (Odia)' },
+    { code: 'as', name: 'অসমীয়া (Assamese)' },
+    { code: 'ur', name: 'اردو (Urdu)' },
+    { code: 'sa', name: 'संस्कृतम् (Sanskrit)' },
   ];
 
   return (
@@ -52,12 +63,12 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
 
           {/* Language Selection */}
           <div className="space-y-3">
-            <label className="text-sm font-medium text-foreground">Select Language</label>
+            <label className="text-sm font-medium text-foreground">Select Language / भाषा चुनें</label>
             <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="max-h-60">
                 {languages.map((lang) => (
                   <SelectItem key={lang.code} value={lang.code}>
                     {lang.name}
