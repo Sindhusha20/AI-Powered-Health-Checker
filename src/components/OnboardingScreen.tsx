@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Heart, Globe, Shield, Smartphone, Cpu, Smartphone as Mobile } from 'lucide-react';
+import { Heart, Globe, Shield, Smartphone } from 'lucide-react';
 
 interface OnboardingScreenProps {
   onComplete: () => void;
@@ -17,10 +17,6 @@ const translations = {
     feature3: 'Available in multiple languages',
     languageLabel: 'Select Language / भाषा चुनें',
     getStarted: 'Get Started',
-    techFrameworks: 'Frameworks: TensorFlow Lite, ML Kit',
-    techPlatforms: 'Platforms: Android, iOS',
-    techConcepts: 'Concepts: Artificial Intelligence, Mobile & Edge Computing, Data Privacy',
-    techCommunication: 'Communication: REST API for healthcare data sync',
   },
   hi: {
     title: 'एआई-संचालित स्वास्थ्य जांचकर्ता',
@@ -30,10 +26,6 @@ const translations = {
     feature3: 'कई भाषाओं में उपलब्ध',
     languageLabel: 'भाषा चुनें / Select Language',
     getStarted: 'शुरू करें',
-    techFrameworks: 'फ्रेमवर्क: TensorFlow Lite, ML Kit',
-    techPlatforms: 'प्लेटफॉर्म: Android, iOS',
-    techConcepts: 'अवधारणाएं: कृत्रिम बुद्धिमत्ता, मोबाइल और एज कंप्यूटिंग, डेटा गोपनीयता',
-    techCommunication: 'संचार: स्वास्थ्य डेटा सिंक के लिए REST API',
   },
   bn: {
     title: 'এআই-চালিত স্বাস্থ্য পরীক্ষক',
@@ -43,10 +35,6 @@ const translations = {
     feature3: 'একাধিক ভাষায় উপলব্ধ',
     languageLabel: 'ভাষা নির্বাচন করুন / Select Language',
     getStarted: 'শুরু করুন',
-    techFrameworks: 'ফ্রেমওয়ার্ক: TensorFlow Lite, ML Kit',
-    techPlatforms: 'প্ল্যাটফর্ম: Android, iOS',
-    techConcepts: 'ধারণা: কৃত্রিম বুদ্ধিমত্তা, মোবাইল ও এজ কম্পিউটিং, ডেটা গোপনীয়তা',
-    techCommunication: 'যোগাযোগ: স্বাস্থ্যসেবা ডেটা সিঙ্কের জন্য REST API',
   },
   te: {
     title: 'AI-శక్తితో పనిచేసే ఆరోగ్య పరీక్ష',
@@ -56,10 +44,6 @@ const translations = {
     feature3: 'అనేక భాషలలో అందుబాటులో ఉంది',
     languageLabel: 'భాష ఎంచుకోండి / Select Language',
     getStarted: 'ప్రారంభించండి',
-    techFrameworks: 'ఫ్రేమ్‌వర్క్స్: TensorFlow Lite, ML Kit',
-    techPlatforms: 'ప్లాట్‌ఫారమ్స్: Android, iOS',
-    techConcepts: 'భావనలు: కృత్రిమ మేధస్సు, మొబైల్ & ఎడ్జ్ కంప్యూటింగ్, డేటా ప్రైవసీ',
-    techCommunication: 'కమ్యూనికేషన్: ఆరోగ్య డేటా సింక్ కోసం REST API',
   },
 };
 
@@ -133,26 +117,6 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
                 ))}
               </SelectContent>
             </Select>
-          </div>
-
-          {/* Technical Details */}
-          <div className="space-y-2 text-left bg-muted/50 p-4 rounded-lg">
-            <div className="flex items-start gap-2">
-              <Cpu className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-              <span className="text-xs text-muted-foreground">{t.techFrameworks}</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Mobile className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-              <span className="text-xs text-muted-foreground">{t.techPlatforms}</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Shield className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-              <span className="text-xs text-muted-foreground">{t.techConcepts}</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <Globe className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-              <span className="text-xs text-muted-foreground">{t.techCommunication}</span>
-            </div>
           </div>
 
           {/* Get Started Button */}
