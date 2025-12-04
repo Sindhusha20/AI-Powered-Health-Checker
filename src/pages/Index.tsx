@@ -10,11 +10,13 @@ import { AppointmentBooking } from '@/components/AppointmentBooking';
 import { analyzeSymptoms } from '@/utils/aiAnalysis';
 import { AnalysisData } from '@/components/AnalysisResult';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage, LanguageProvider } from '@/hooks/useLanguage';
 
 type ViewState = 'onboarding' | 'home' | 'symptoms' | 'results' | 'advice' | 'history' | 'settings' | 'booking' | 'loading';
 
-const Index = () => {
+const IndexContent = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [view, setView] = useState<ViewState>('onboarding');
   const [analysis, setAnalysis] = useState<AnalysisData | null>(null);
 
@@ -109,8 +111,8 @@ const Index = () => {
         <div className="min-h-screen bg-background flex items-center justify-center">
           <div className="text-center space-y-4">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-            <h2 className="text-xl font-semibold text-foreground">Analyzing Your Symptoms</h2>
-            <p className="text-muted-foreground">Our AI is processing your information...</p>
+            <h2 className="text-xl font-semibold text-foreground">{t.analyzingSymptoms}</h2>
+            <p className="text-muted-foreground">{t.aiProcessing}</p>
           </div>
         </div>
       );
@@ -118,6 +120,14 @@ const Index = () => {
     default:
       return <OnboardingScreen onComplete={handleCompleteOnboarding} />;
   }
+};
+
+const Index = () => {
+  return (
+    <LanguageProvider>
+      <IndexContent />
+    </LanguageProvider>
+  );
 };
 
 export default Index;

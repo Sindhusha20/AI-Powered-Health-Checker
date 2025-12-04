@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { ArrowLeft, AlertTriangle, AlertCircle, CheckCircle, Calendar, Info } from 'lucide-react';
 import { AnalysisData } from './AnalysisResult';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface ResultsScreenProps {
   analysis: AnalysisData;
@@ -13,6 +13,8 @@ interface ResultsScreenProps {
 }
 
 export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvice }: ResultsScreenProps) => {
+  const { t } = useLanguage();
+
   const getTriageColor = (triage: string) => {
     switch (triage) {
       case 'urgent': return 'urgent';
@@ -33,10 +35,10 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
 
   const getTriageText = (triage: string) => {
     switch (triage) {
-      case 'urgent': return 'Urgent - Seek immediate care';
-      case 'consult-soon': return 'Consult Soon - Schedule appointment';
-      case 'monitor': return 'Safe to Monitor - Keep an eye on symptoms';
-      default: return 'Safe to Monitor';
+      case 'urgent': return t.urgent;
+      case 'consult-soon': return t.consultSoon;
+      case 'monitor': return t.safeToMonitor;
+      default: return t.safeToMonitor;
     }
   };
 
@@ -50,7 +52,7 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
           <Button variant="ghost" size="sm" onClick={onBack}>
             <ArrowLeft className="w-4 h-4" />
           </Button>
-          <h1 className="text-xl font-semibold text-foreground">Results</h1>
+          <h1 className="text-xl font-semibold text-foreground">{t.results}</h1>
         </div>
       </header>
 
@@ -75,7 +77,7 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
             </h2>
             
             <p className="text-muted-foreground text-sm">
-              Based on your symptoms, here's our AI assessment
+              {t.medicalDisclaimer.split('.')[0]}
             </p>
           </CardContent>
         </Card>
@@ -85,13 +87,13 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base">
               <Info className="w-5 h-5" />
-              Analysis Summary
+              {t.analysisSummary}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Conditions analyzed</span>
+                <span className="text-muted-foreground">{t.conditionsAnalyzed}</span>
                 <span className="font-medium text-foreground">{analysis.conditions.length}</span>
               </div>
             </div>
@@ -101,7 +103,7 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
         {/* Possible Conditions */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Possible Conditions</CardTitle>
+            <CardTitle className="text-base">{t.possibleConditions}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {analysis.conditions.map((condition, index) => (
@@ -113,7 +115,7 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
                 </div>
                 <div className="flex-1">
                   <h4 className="font-medium text-foreground text-sm">{condition.name}</h4>
-                  <p className="text-xs text-muted-foreground mt-1">{condition.probability}% match</p>
+                  <p className="text-xs text-muted-foreground mt-1">{condition.probability}% {t.match}</p>
                   <p className="text-xs text-muted-foreground mt-1">{condition.description}</p>
                 </div>
               </div>
@@ -124,7 +126,7 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
         {/* Symptoms Analyzed */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Symptoms Analyzed</CardTitle>
+            <CardTitle className="text-base">{t.symptomsAnalyzed}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
@@ -140,13 +142,13 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
         {/* Action Buttons */}
         <div className="space-y-3">
           <Button onClick={onViewAdvice} className="w-full" size="lg">
-            View Care Advice
+            {t.viewCareAdvice}
           </Button>
           
           {analysis.triage !== 'monitor' && (
             <Button onClick={onBookAppointment} variant="outline" className="w-full" size="lg">
               <Calendar className="w-4 h-4 mr-2" />
-              Book Appointment
+              {t.bookAppointment}
             </Button>
           )}
         </div>
@@ -155,9 +157,7 @@ export const ResultsScreen = ({ analysis, onBack, onBookAppointment, onViewAdvic
         <Card className="bg-muted/30">
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground text-center">
-              <strong>Medical Disclaimer:</strong> This AI assessment is for informational purposes only. 
-              Always consult healthcare professionals for medical concerns. If experiencing severe symptoms, 
-              seek immediate medical attention.
+              <strong>{t.medicalDisclaimer.split(':')[0]}:</strong> {t.medicalDisclaimer.split(':')[1]}
             </p>
           </CardContent>
         </Card>

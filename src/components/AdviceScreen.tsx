@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, AlertTriangle, Calendar, Home, Thermometer, Droplets, Moon, Phone } from 'lucide-react';
 import { AnalysisData } from './AnalysisResult';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface AdviceScreenProps {
   analysis: AnalysisData;
@@ -11,55 +12,57 @@ interface AdviceScreenProps {
 }
 
 export const AdviceScreen = ({ analysis, onBack, onBookAppointment }: AdviceScreenProps) => {
+  const { t } = useLanguage();
+
   const getAdviceByTriage = (triage: string) => {
     switch (triage.toLowerCase()) {
       case 'urgent':
         return {
-          title: 'Immediate Action Required',
+          title: t.immediateActionRequired,
           icon: <AlertTriangle className="w-5 h-5 text-urgent" />,
           advice: [
-            'Seek emergency medical care immediately',
-            'Call emergency services if symptoms worsen',
-            'Do not wait - go to the nearest hospital',
-            'Have someone drive you or call an ambulance'
+            t.seekEmergency,
+            t.callEmergencyServices,
+            t.doNotWait,
+            t.haveSomeoneDrive
           ],
           homecare: []
         };
       
       case 'consult-soon':
         return {
-          title: 'Schedule Medical Consultation',
+          title: t.scheduleMedicalConsultation,
           icon: <Calendar className="w-5 h-5 text-warning" />,
           advice: [
-            'Contact your healthcare provider within 24-48 hours',
-            'Monitor symptoms closely',
-            'Avoid strenuous activities',
-            'Keep a symptom diary'
+            t.contactProvider,
+            t.monitorClosely,
+            t.avoidStrenuous,
+            t.keepDiary
           ],
           homecare: [
-            'Get plenty of rest',
-            'Stay hydrated with clear fluids',
-            'Maintain a comfortable room temperature',
-            'Take over-the-counter pain relief if needed'
+            t.getPlentyRest,
+            t.stayHydrated,
+            t.maintainComfortable,
+            t.takeOTC
           ]
         };
       
       default:
         return {
-          title: 'Self-Care & Monitoring',
+          title: t.selfCareMonitoring,
           icon: <Home className="w-5 h-5 text-safe" />,
           advice: [
-            'Monitor symptoms for any changes',
-            'Rest and allow your body to recover',
-            'Contact a doctor if symptoms worsen',
-            'Keep track of how you feel'
+            t.monitorForChanges,
+            t.restAndRecover,
+            t.contactDoctor,
+            t.keepTrack
           ],
           homecare: [
-            'Get 7-9 hours of sleep',
-            'Drink plenty of water',
-            'Eat light, nutritious meals',
-            'Use a humidifier if needed',
-            'Take warm baths or showers'
+            t.getSleep,
+            t.drinkWater,
+            t.eatLight,
+            t.useHumidifier,
+            t.takeWarmBaths
           ]
         };
     }
@@ -75,7 +78,7 @@ export const AdviceScreen = ({ analysis, onBack, onBookAppointment }: AdviceScre
           <Button variant="ghost" size="sm" onClick={onBack}>
             <ArrowLeft className="w-4 h-4" />
           </Button>
-          <h1 className="text-xl font-semibold text-foreground">Care Advice</h1>
+          <h1 className="text-xl font-semibold text-foreground">{t.careAdvice}</h1>
         </div>
       </header>
 
@@ -96,9 +99,9 @@ export const AdviceScreen = ({ analysis, onBack, onBookAppointment }: AdviceScre
                 'border-safe text-safe'
               }`}
             >
-              {analysis.triage === 'urgent' ? '🟥 Urgent Care' :
-               analysis.triage === 'consult-soon' ? '🟧 Consult Soon' :
-               '🟩 Safe to Monitor'}
+              {analysis.triage === 'urgent' ? `🟥 ${t.urgentCare}` :
+               analysis.triage === 'consult-soon' ? `🟧 ${t.consultSoon.split(' - ')[0]}` :
+               `🟩 ${t.safeToMonitor.split(' - ')[0]}`}
             </Badge>
           </CardContent>
         </Card>
@@ -106,7 +109,7 @@ export const AdviceScreen = ({ analysis, onBack, onBookAppointment }: AdviceScre
         {/* Medical Advice */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Recommended Next Steps</CardTitle>
+            <CardTitle className="text-base">{t.recommendedNextSteps}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {advice.advice.map((item, index) => (
@@ -124,7 +127,7 @@ export const AdviceScreen = ({ analysis, onBack, onBookAppointment }: AdviceScre
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-base">
                 <Home className="w-5 h-5" />
-                Home Care Tips
+                {t.homeCareTips}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -149,16 +152,16 @@ export const AdviceScreen = ({ analysis, onBack, onBookAppointment }: AdviceScre
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-base text-destructive">
               <AlertTriangle className="w-5 h-5" />
-              When to Seek Immediate Care
+              {t.whenToSeekCare}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2 text-sm text-foreground">
-              <p>• Symptoms suddenly worsen or become severe</p>
-              <p>• Difficulty breathing or chest pain</p>
-              <p>• High fever (over 103°F/39.4°C)</p>
-              <p>• Severe headache or confusion</p>
-              <p>• Persistent vomiting or signs of dehydration</p>
+              <p>• {t.symptomsWorsen}</p>
+              <p>• {t.difficultyBreathing}</p>
+              <p>• {t.highFeverWarning}</p>
+              <p>• {t.severeHeadache}</p>
+              <p>• {t.persistentVomiting}</p>
             </div>
           </CardContent>
         </Card>
@@ -168,13 +171,13 @@ export const AdviceScreen = ({ analysis, onBack, onBookAppointment }: AdviceScre
           {analysis.triage !== 'monitor' && (
             <Button onClick={onBookAppointment} className="w-full" size="lg">
               <Calendar className="w-4 h-4 mr-2" />
-              Book Appointment
+              {t.bookAppointment}
             </Button>
           )}
           
           <Button variant="outline" className="w-full" size="lg">
             <Phone className="w-4 h-4 mr-2" />
-            Call Health Hotline
+            {t.callHealthHotline}
           </Button>
         </div>
 
@@ -183,10 +186,10 @@ export const AdviceScreen = ({ analysis, onBack, onBookAppointment }: AdviceScre
           <CardContent className="p-4 text-center">
             <div className="flex items-center justify-center gap-2 mb-2">
               <Phone className="w-4 h-4 text-urgent" />
-              <span className="text-sm font-medium text-urgent">Emergency: 911</span>
+              <span className="text-sm font-medium text-urgent">{t.emergency}: 911</span>
             </div>
             <p className="text-xs text-muted-foreground">
-              Call immediately if you experience life-threatening symptoms
+              {t.callImmediately}
             </p>
           </CardContent>
         </Card>

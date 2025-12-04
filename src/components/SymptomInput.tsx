@@ -6,22 +6,37 @@ import { Badge } from '@/components/ui/badge';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Plus, X, Thermometer } from 'lucide-react';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface SymptomInputProps {
   onAnalyze: (symptoms: string[]) => void;
 }
 
-const commonSymptoms = [
-  'Headache', 'Fever', 'Cough', 'Fatigue', 'Nausea', 'Dizziness',
-  'Chest Pain', 'Shortness of Breath', 'Stomach Pain', 'Sore Throat',
-  'Body Aches', 'Loss of Appetite'
-];
-
 export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
+  const { t } = useLanguage();
   const [currentSymptom, setCurrentSymptom] = useState('');
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const [feverTemperature, setFeverTemperature] = useState('');
   const [temperatureUnit, setTemperatureUnit] = useState<'C' | 'F'>('C');
+
+  const commonSymptoms = [
+    { key: 'headache', en: 'Headache' },
+    { key: 'fever', en: 'Fever' },
+    { key: 'cough', en: 'Cough' },
+    { key: 'fatigue', en: 'Fatigue' },
+    { key: 'nausea', en: 'Nausea' },
+    { key: 'dizziness', en: 'Dizziness' },
+    { key: 'chestPain', en: 'Chest Pain' },
+    { key: 'shortnessOfBreath', en: 'Shortness of Breath' },
+    { key: 'stomachPain', en: 'Stomach Pain' },
+    { key: 'soreThroat', en: 'Sore Throat' },
+    { key: 'bodyAches', en: 'Body Aches' },
+    { key: 'lossOfAppetite', en: 'Loss of Appetite' },
+  ];
+
+  const getSymptomName = (key: string): string => {
+    return t[key as keyof typeof t] as string || key;
+  };
 
   const addSymptom = (symptom: string) => {
     if (symptom.trim() && !selectedSymptoms.includes(symptom.trim())) {
@@ -30,7 +45,9 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
     }
   };
 
-  const hasFever = selectedSymptoms.some(s => s.toLowerCase() === 'fever');
+  const hasFever = selectedSymptoms.some(s => 
+    s.toLowerCase() === 'fever' || s === t.fever
+  );
 
   const removeSymptom = (symptom: string) => {
     setSelectedSymptoms(selectedSymptoms.filter(s => s !== symptom));
@@ -46,13 +63,27 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
     }
   };
 
+  const getTemperatureStatus = () => {
+    if (!feverTemperature) return null;
+    const temp = parseFloat(feverTemperature);
+    if (temperatureUnit === 'C') {
+      if (temp >= 38) return { status: 'high', text: `🔴 ${t.highFever}` };
+      if (temp >= 37.5) return { status: 'mild', text: `🟡 ${t.mildFever}` };
+      return { status: 'normal', text: `🟢 ${t.normalTemperature}` };
+    } else {
+      if (temp >= 100.4) return { status: 'high', text: `🔴 ${t.highFever}` };
+      if (temp >= 99.5) return { status: 'mild', text: `🟡 ${t.mildFever}` };
+      return { status: 'normal', text: `🟢 ${t.normalTemperature}` };
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-card border-b border-border p-4">
         <div className="max-w-lg mx-auto">
-          <h1 className="text-xl font-semibold text-foreground text-center">Symptom Check</h1>
-          <p className="text-sm text-muted-foreground text-center">Select your symptoms</p>
+          <h1 className="text-xl font-semibold text-foreground text-center">{t.symptomCheck}</h1>
+          <p className="text-sm text-muted-foreground text-center">{t.selectSymptoms}</p>
         </div>
       </header>
 
@@ -61,17 +92,17 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
         <Card>
           <CardHeader>
             <CardTitle className="text-center text-xl text-foreground">
-              How are you feeling?
+              {t.howAreYouFeeling}
             </CardTitle>
             <p className="text-center text-muted-foreground text-sm">
-              Select from common symptoms or add your own
+              {t.selectFromCommon}
             </p>
           </CardHeader>
       <CardContent className="space-y-6">
         {/* Custom symptom input */}
         <form onSubmit={handleSubmit} className="flex gap-2">
           <Input
-            placeholder="Type a symptom..."
+            placeholder={t.typeSymptom}
             value={currentSymptom}
             onChange={(e) => setCurrentSymptom(e.target.value)}
             className="flex-1"
@@ -88,25 +119,29 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
 
         {/* Common symptoms */}
         <div>
-          <h3 className="text-sm font-medium text-foreground mb-3">Common Symptoms</h3>
+          <h3 className="text-sm font-medium text-foreground mb-3">{t.commonSymptoms}</h3>
           <div className="flex flex-wrap gap-2">
-            {commonSymptoms.map((symptom) => (
-              <Badge
-                key={symptom}
-                variant={selectedSymptoms.includes(symptom) ? "default" : "secondary"}
-                className="cursor-pointer hover:bg-primary/80 transition-colors"
-                onClick={() => addSymptom(symptom)}
-              >
-                {symptom}
-              </Badge>
-            ))}
+            {commonSymptoms.map((symptom) => {
+              const displayName = getSymptomName(symptom.key);
+              const isSelected = selectedSymptoms.includes(displayName) || selectedSymptoms.includes(symptom.en);
+              return (
+                <Badge
+                  key={symptom.key}
+                  variant={isSelected ? "default" : "secondary"}
+                  className="cursor-pointer hover:bg-primary/80 transition-colors"
+                  onClick={() => addSymptom(displayName)}
+                >
+                  {displayName}
+                </Badge>
+              );
+            })}
           </div>
         </div>
 
         {/* Selected symptoms */}
         {selectedSymptoms.length > 0 && (
           <div>
-            <h3 className="text-sm font-medium text-foreground mb-3">Your Symptoms</h3>
+            <h3 className="text-sm font-medium text-foreground mb-3">{t.yourSymptoms}</h3>
             <div className="flex flex-wrap gap-2">
               {selectedSymptoms.map((symptom) => (
                 <Badge
@@ -131,7 +166,7 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
             <div className="flex items-center gap-2">
               <Thermometer className="w-4 h-4 text-primary" />
               <Label className="text-sm font-medium text-foreground">
-                Fever Temperature (optional)
+                {t.feverTemperature}
               </Label>
             </div>
             
@@ -142,11 +177,11 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="C" id="celsius" />
-                <Label htmlFor="celsius" className="cursor-pointer">Celsius (°C)</Label>
+                <Label htmlFor="celsius" className="cursor-pointer">{t.celsius}</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="F" id="fahrenheit" />
-                <Label htmlFor="fahrenheit" className="cursor-pointer">Fahrenheit (°F)</Label>
+                <Label htmlFor="fahrenheit" className="cursor-pointer">{t.fahrenheit}</Label>
               </div>
             </RadioGroup>
 
@@ -164,18 +199,7 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
             
             {feverTemperature && (
               <p className="text-xs text-muted-foreground">
-                {temperatureUnit === 'C' 
-                  ? (parseFloat(feverTemperature) >= 38 
-                      ? '🔴 High fever - seek medical attention' 
-                      : parseFloat(feverTemperature) >= 37.5 
-                      ? '🟡 Mild fever' 
-                      : '🟢 Normal temperature')
-                  : (parseFloat(feverTemperature) >= 100.4 
-                      ? '🔴 High fever - seek medical attention' 
-                      : parseFloat(feverTemperature) >= 99.5 
-                      ? '🟡 Mild fever' 
-                      : '🟢 Normal temperature')
-                }
+                {getTemperatureStatus()?.text}
               </p>
             )}
           </div>
@@ -188,7 +212,7 @@ export const SymptomInput = ({ onAnalyze }: SymptomInputProps) => {
           className="w-full"
           size="lg"
         >
-          Analyze Symptoms
+          {t.analyzeSymptoms}
         </Button>
           </CardContent>
         </Card>
