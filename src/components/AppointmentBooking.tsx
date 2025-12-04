@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, MapPin, Clock, Star, Phone } from 'lucide-react';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface Clinic {
   id: string;
@@ -55,6 +56,7 @@ const mockClinics: Clinic[] = [
 ];
 
 export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
+  const { t } = useLanguage();
   const [selectedClinic, setSelectedClinic] = useState<Clinic | null>(null);
   const [patientInfo, setPatientInfo] = useState({
     name: '',
@@ -64,20 +66,19 @@ export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
   });
 
   const handleBooking = () => {
-    // In a real app, this would make an API call
     alert(`Appointment booked at ${selectedClinic?.name}!\nYou will receive a confirmation shortly.`);
     onBack();
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6">
+    <div className="w-full max-w-4xl mx-auto space-y-6 p-4">
       {/* Header */}
       <div className="flex items-center gap-4">
         <Button variant="outline" onClick={onBack} size="sm">
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Results
+          {t.backToResults}
         </Button>
-        <h1 className="text-2xl font-bold text-foreground">Book an Appointment</h1>
+        <h1 className="text-2xl font-bold text-foreground">{t.bookAppointment}</h1>
       </div>
 
       {!selectedClinic ? (
@@ -85,9 +86,9 @@ export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Find Nearby Clinics</CardTitle>
+              <CardTitle>{t.findNearbyClinics}</CardTitle>
               <p className="text-sm text-muted-foreground">
-                Select a clinic to book your appointment
+                {t.selectClinic}
               </p>
             </CardHeader>
           </Card>
@@ -112,7 +113,7 @@ export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
-                        Next available: {clinic.nextAvailable}
+                        {t.nextAvailable}: {clinic.nextAvailable}
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Phone className="w-4 h-4" />
@@ -133,7 +134,7 @@ export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
                     onClick={() => setSelectedClinic(clinic)}
                     className="ml-4"
                   >
-                    Select
+                    {t.select}
                   </Button>
                 </div>
               </CardContent>
@@ -145,30 +146,30 @@ export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Booking at {selectedClinic.name}</CardTitle>
+              <CardTitle>{t.bookingAt} {selectedClinic.name}</CardTitle>
               <p className="text-sm text-muted-foreground">
-                {selectedClinic.address} • Next available: {selectedClinic.nextAvailable}
+                {selectedClinic.address} • {t.nextAvailable}: {selectedClinic.nextAvailable}
               </p>
             </CardHeader>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Patient Information</CardTitle>
+              <CardTitle>{t.patientInformation}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="name">Full Name</Label>
+                  <Label htmlFor="name">{t.fullName}</Label>
                   <Input
                     id="name"
-                    placeholder="Enter your full name"
+                    placeholder={t.enterName}
                     value={patientInfo.name}
                     onChange={(e) => setPatientInfo({...patientInfo, name: e.target.value})}
                   />
                 </div>
                 <div>
-                  <Label htmlFor="phone">Phone Number</Label>
+                  <Label htmlFor="phone">{t.phoneNumber}</Label>
                   <Input
                     id="phone"
                     placeholder="(555) 123-4567"
@@ -179,7 +180,7 @@ export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
               </div>
               
               <div>
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email">{t.emailAddress}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -190,10 +191,10 @@ export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
               </div>
 
               <div>
-                <Label htmlFor="reason">Reason for Visit</Label>
+                <Label htmlFor="reason">{t.reasonForVisit}</Label>
                 <Input
                   id="reason"
-                  placeholder="Brief description of your symptoms"
+                  placeholder={t.briefDescription}
                   value={patientInfo.reason}
                   onChange={(e) => setPatientInfo({...patientInfo, reason: e.target.value})}
                 />
@@ -207,14 +208,14 @@ export const AppointmentBooking = ({ onBack }: AppointmentBookingProps) => {
               onClick={() => setSelectedClinic(null)}
               className="flex-1"
             >
-              Choose Different Clinic
+              {t.chooseDifferentClinic}
             </Button>
             <Button 
               onClick={handleBooking}
               className="flex-1"
               disabled={!patientInfo.name || !patientInfo.phone}
             >
-              Confirm Appointment
+              {t.confirmAppointment}
             </Button>
           </div>
         </div>

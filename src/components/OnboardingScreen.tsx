@@ -1,73 +1,42 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Heart, Globe, Shield, Smartphone } from 'lucide-react';
+import { useLanguage, Language } from '@/hooks/useLanguage';
 
 interface OnboardingScreenProps {
   onComplete: () => void;
 }
 
-const translations = {
-  en: {
-    title: 'AI-Powered Health Checker',
-    subtitle: 'Check your symptoms anytime, anywhere – even offline',
-    feature1: 'Works offline on your device',
-    feature2: 'Your data stays private',
-    feature3: 'Available in multiple languages',
-    languageLabel: 'Select Language / भाषा चुनें',
-    getStarted: 'Get Started',
-  },
-  hi: {
-    title: 'एआई-संचालित स्वास्थ्य जांचकर्ता',
-    subtitle: 'अपने लक्षणों की जांच कभी भी, कहीं भी करें – ऑफ़लाइन भी',
-    feature1: 'आपके डिवाइस पर ऑफ़लाइन काम करता है',
-    feature2: 'आपका डेटा निजी रहता है',
-    feature3: 'कई भाषाओं में उपलब्ध',
-    languageLabel: 'भाषा चुनें / Select Language',
-    getStarted: 'शुरू करें',
-  },
-  bn: {
-    title: 'এআই-চালিত স্বাস্থ্য পরীক্ষক',
-    subtitle: 'যেকোনো সময়, যেকোনো জায়গায় আপনার লক্ষণ পরীক্ষা করুন – এমনকি ऑফলाইন',
-    feature1: 'আপনার ডিভাইসে অফলাইনে কাজ করে',
-    feature2: 'আপনার ডেটা ব্যক্তিগত থাকে',
-    feature3: 'একাধিক ভাষায় উপলব্ধ',
-    languageLabel: 'ভাষা নির্বাচন করুন / Select Language',
-    getStarted: 'শুরু করুন',
-  },
-  te: {
-    title: 'AI-శక్తితో పనిచేసే ఆరోగ్య పరీక్ష',
-    subtitle: 'ఎప్పుడైనా, ఎక్కడైనా మీ లక్షణాలను తనిఖీ చేయండి – ఆఫ్‌లైన్‌లో కూడా',
-    feature1: 'మీ పరికరంలో ఆఫ్‌లైన్‌లో పనిచేస్తుంది',
-    feature2: 'మీ డేటా ప్రైవేట్‌గా ఉంటుంది',
-    feature3: 'అనేక భాషలలో అందుబాటులో ఉంది',
-    languageLabel: 'భాష ఎంచుకోండి / Select Language',
-    getStarted: 'ప్రారంభించండి',
-  },
-};
+const languages = [
+  { code: 'en', name: 'English (अंग्रेज़ी)' },
+  { code: 'hi', name: 'हिंदी (Hindi)' },
+  { code: 'bn', name: 'বাংলা (Bengali)' },
+  { code: 'te', name: 'తెలుగు (Telugu)' },
+  { code: 'mr', name: 'मराठी (Marathi)' },
+  { code: 'ta', name: 'தமிழ் (Tamil)' },
+  { code: 'gu', name: 'ગુજરાતી (Gujarati)' },
+  { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
+  { code: 'ml', name: 'മലയാളം (Malayalam)' },
+  { code: 'pa', name: 'ਪੰਜਾਬੀ (Punjabi)' },
+  { code: 'or', name: 'ଓଡ଼ିଆ (Odia)' },
+  { code: 'as', name: 'অসমীয়া (Assamese)' },
+  { code: 'ur', name: 'اردو (Urdu)' },
+  { code: 'sa', name: 'संस्कृतम् (Sanskrit)' },
+];
 
 export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
-  const [selectedLanguage, setSelectedLanguage] = useState('en');
-  
-  const t = translations[selectedLanguage as keyof typeof translations] || translations.en;
+  const { language, setLanguage, t } = useLanguage();
 
-  const languages = [
-    { code: 'en', name: 'English (अंग्रेज़ी)' },
-    { code: 'hi', name: 'हिंदी (Hindi)' },
-    { code: 'bn', name: 'বাংলা (Bengali)' },
-    { code: 'te', name: 'తెలుగు (Telugu)' },
-    { code: 'mr', name: 'मराठी (Marathi)' },
-    { code: 'ta', name: 'தமிழ் (Tamil)' },
-    { code: 'gu', name: 'ગુજરાતી (Gujarati)' },
-    { code: 'kn', name: 'ಕನ್ನಡ (Kannada)' },
-    { code: 'ml', name: 'മലയാളം (Malayalam)' },
-    { code: 'pa', name: 'ਪੰਜਾਬੀ (Punjabi)' },
-    { code: 'or', name: 'ଓଡ଼ିଆ (Odia)' },
-    { code: 'as', name: 'অসমীয়া (Assamese)' },
-    { code: 'ur', name: 'اردو (Urdu)' },
-    { code: 'sa', name: 'संस्कृतम् (Sanskrit)' },
-  ];
+  const handleLanguageChange = (value: string) => {
+    // Only set if it's a supported language with full translations
+    if (['en', 'hi', 'bn', 'te'].includes(value)) {
+      setLanguage(value as Language);
+    } else {
+      // For other languages, default to English but store preference
+      setLanguage('en');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -80,9 +49,9 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
 
           {/* App Title */}
           <div className="space-y-2">
-            <h1 className="text-2xl font-bold text-foreground">{t.title}</h1>
+            <h1 className="text-2xl font-bold text-foreground">{t.appTitle}</h1>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              {t.subtitle}
+              {t.appSubtitle}
             </p>
           </div>
 
@@ -105,7 +74,7 @@ export const OnboardingScreen = ({ onComplete }: OnboardingScreenProps) => {
           {/* Language Selection */}
           <div className="space-y-3">
             <label className="text-sm font-medium text-foreground">{t.languageLabel}</label>
-            <Select value={selectedLanguage} onValueChange={setSelectedLanguage}>
+            <Select value={language} onValueChange={handleLanguageChange}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

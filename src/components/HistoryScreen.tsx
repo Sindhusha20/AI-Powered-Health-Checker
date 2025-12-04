@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Calendar, AlertTriangle, AlertCircle, CheckCircle } from 'lucide-react';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface HistoryItem {
   id: string;
@@ -58,6 +59,26 @@ const getTriageVariant = (triage: string) => {
 };
 
 export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
+  const { t, language } = useLanguage();
+
+  const getTriageLabel = (triage: string) => {
+    switch (triage) {
+      case 'urgent': return t.urgent.split(' - ')[0];
+      case 'warning': return t.consultSoon.split(' - ')[0];
+      case 'safe': return t.safeToMonitor.split(' - ')[0];
+      default: return t.safeToMonitor.split(' - ')[0];
+    }
+  };
+
+  const getDateLocale = () => {
+    switch (language) {
+      case 'hi': return 'hi-IN';
+      case 'bn': return 'bn-IN';
+      case 'te': return 'te-IN';
+      default: return 'en-US';
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -66,7 +87,7 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
           <Button variant="ghost" size="sm" onClick={onBack}>
             <ArrowLeft className="w-4 h-4" />
           </Button>
-          <h1 className="text-xl font-semibold text-foreground">History</h1>
+          <h1 className="text-xl font-semibold text-foreground">{t.history}</h1>
         </div>
       </header>
 
@@ -76,9 +97,9 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
           <Card>
             <CardContent className="p-8 text-center">
               <Calendar className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="font-medium text-foreground mb-2">No history yet</h3>
+              <h3 className="font-medium text-foreground mb-2">{t.noHistoryYet}</h3>
               <p className="text-sm text-muted-foreground">
-                Your symptom checks will appear here
+                {t.checksWillAppear}
               </p>
             </CardContent>
           </Card>
@@ -88,7 +109,7 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-sm font-medium text-foreground">
-                    {new Date(item.date).toLocaleDateString('en-US', {
+                    {new Date(item.date).toLocaleDateString(getDateLocale(), {
                       month: 'short',
                       day: 'numeric',
                       year: 'numeric'
@@ -103,15 +124,14 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
                     }`}
                   >
                     {getTriageIcon(item.triage)}
-                    {item.triage === 'urgent' ? 'Urgent' :
-                     item.triage === 'warning' ? 'Consult Soon' : 'Safe to Monitor'}
+                    {getTriageLabel(item.triage)}
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="space-y-2">
                   <div>
-                    <h4 className="text-sm font-medium text-foreground mb-1">Symptoms</h4>
+                    <h4 className="text-sm font-medium text-foreground mb-1">{t.symptoms}</h4>
                     <div className="flex flex-wrap gap-1">
                       {item.symptoms.map((symptom) => (
                         <Badge key={symptom} variant="outline" className="text-xs">
@@ -121,7 +141,7 @@ export const HistoryScreen = ({ onBack }: HistoryScreenProps) => {
                     </div>
                   </div>
                   <div>
-                    <h4 className="text-sm font-medium text-foreground mb-1">Assessment</h4>
+                    <h4 className="text-sm font-medium text-foreground mb-1">{t.assessment}</h4>
                     <p className="text-sm text-muted-foreground">{item.condition}</p>
                   </div>
                 </div>

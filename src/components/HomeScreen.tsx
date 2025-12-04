@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Heart, Stethoscope, History, Settings, Shield, Clock, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface HomeScreenProps {
   onCheckSymptoms: () => void;
@@ -13,6 +14,7 @@ interface HomeScreenProps {
 
 export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: HomeScreenProps) => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   
   return (
     <div className="min-h-screen bg-background">
@@ -24,21 +26,21 @@ export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: H
               <Heart className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-foreground">AI-Powered Health Checker</h1>
-              <p className="text-xs text-muted-foreground">AI-Powered Health Assistant</p>
+              <h1 className="text-xl font-semibold text-foreground">{t.appTitle}</h1>
+              <p className="text-xs text-muted-foreground">{t.healthAssistant}</p>
             </div>
           </div>
           {!user ? (
             <Link to="/auth">
               <Button variant="outline" size="sm">
                 <User className="w-4 h-4 mr-2" />
-                Sign In
+                {t.signIn}
               </Button>
             </Link>
           ) : (
             <Badge variant="secondary" className="flex items-center gap-1">
               <Shield className="w-3 h-3" />
-              Signed In
+              {t.signedIn}
             </Badge>
           )}
         </div>
@@ -48,8 +50,8 @@ export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: H
       <main className="max-w-lg mx-auto p-4 space-y-6">
         {/* Welcome Message */}
         <div className="text-center py-6">
-          <h2 className="text-2xl font-bold text-foreground mb-2">Welcome back!</h2>
-          <p className="text-muted-foreground">How are you feeling today?</p>
+          <h2 className="text-2xl font-bold text-foreground mb-2">{t.welcomeBack}</h2>
+          <p className="text-muted-foreground">{t.howFeeling}</p>
         </div>
 
         {/* Main Check Symptoms Button */}
@@ -59,7 +61,7 @@ export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: H
           size="lg"
         >
           <Stethoscope className="w-6 h-6 mr-3" />
-          Check Symptoms
+          {t.checkSymptoms}
         </Button>
 
         {/* Quick Access Cards */}
@@ -67,16 +69,16 @@ export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: H
           <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={onViewHistory}>
             <CardContent className="p-4 text-center">
               <History className="w-8 h-8 text-primary mx-auto mb-2" />
-              <h3 className="font-medium text-sm text-foreground">History</h3>
-              <p className="text-xs text-muted-foreground">Previous checks</p>
+              <h3 className="font-medium text-sm text-foreground">{t.history}</h3>
+              <p className="text-xs text-muted-foreground">{t.previousChecks}</p>
             </CardContent>
           </Card>
 
           <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={onOpenSettings}>
             <CardContent className="p-4 text-center">
               <Settings className="w-8 h-8 text-primary mx-auto mb-2" />
-              <h3 className="font-medium text-sm text-foreground">Settings</h3>
-              <p className="text-xs text-muted-foreground">Preferences</p>
+              <h3 className="font-medium text-sm text-foreground">{t.settings}</h3>
+              <p className="text-xs text-muted-foreground">{t.preferences}</p>
             </CardContent>
           </Card>
         </div>
@@ -84,17 +86,17 @@ export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: H
         {/* Quick Stats */}
         <Card>
           <CardContent className="p-4">
-            <h3 className="font-medium text-foreground mb-3">Quick Stats</h3>
+            <h3 className="font-medium text-foreground mb-3">{t.quickStats}</h3>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Total checks</span>
+                <span className="text-sm text-muted-foreground">{t.totalChecks}</span>
                 <span className="text-sm font-medium text-foreground">12</span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Last check</span>
+                <span className="text-sm text-muted-foreground">{t.lastCheck}</span>
                 <div className="flex items-center gap-1">
                   <Clock className="w-3 h-3 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">2 days ago</span>
+                  <span className="text-sm font-medium text-foreground">2 {t.daysAgo}</span>
                 </div>
               </div>
             </div>
@@ -104,7 +106,7 @@ export const HomeScreen = ({ onCheckSymptoms, onViewHistory, onOpenSettings }: H
         {/* Privacy Notice */}
         <div className="text-center text-xs text-muted-foreground px-4">
           <Shield className="w-4 h-4 inline mr-1" />
-          All your health data stays securely on your device
+          {t.dataPrivacyNotice}
         </div>
       </main>
     </div>
