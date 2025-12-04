@@ -14,6 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_metadata: {
+        Row: {
+          category: string
+          created_at: string | null
+          id: string
+          key: string
+          updated_at: string | null
+          value: string
+        }
+        Insert: {
+          category: string
+          created_at?: string | null
+          id?: string
+          key: string
+          updated_at?: string | null
+          value: string
+        }
+        Update: {
+          category?: string
+          created_at?: string | null
+          id?: string
+          key?: string
+          updated_at?: string | null
+          value?: string
+        }
+        Relationships: []
+      }
+      conditions: {
+        Row: {
+          condition_code: string
+          created_at: string | null
+          description_bn: string | null
+          description_en: string | null
+          description_hi: string | null
+          description_te: string | null
+          id: string
+          name_bn: string | null
+          name_en: string
+          name_hi: string | null
+          name_te: string | null
+          updated_at: string | null
+          urgency_level: string
+        }
+        Insert: {
+          condition_code: string
+          created_at?: string | null
+          description_bn?: string | null
+          description_en?: string | null
+          description_hi?: string | null
+          description_te?: string | null
+          id?: string
+          name_bn?: string | null
+          name_en: string
+          name_hi?: string | null
+          name_te?: string | null
+          updated_at?: string | null
+          urgency_level: string
+        }
+        Update: {
+          condition_code?: string
+          created_at?: string | null
+          description_bn?: string | null
+          description_en?: string | null
+          description_hi?: string | null
+          description_te?: string | null
+          id?: string
+          name_bn?: string | null
+          name_en?: string
+          name_hi?: string | null
+          name_te?: string | null
+          updated_at?: string | null
+          urgency_level?: string
+        }
+        Relationships: []
+      }
       healthcare_api_logs: {
         Row: {
           api_endpoint: string
@@ -79,6 +154,50 @@ export type Database = {
         }
         Relationships: []
       }
+      recommendations: {
+        Row: {
+          condition_id: string
+          created_at: string | null
+          id: string
+          priority: number | null
+          recommendation_bn: string | null
+          recommendation_en: string
+          recommendation_hi: string | null
+          recommendation_te: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          condition_id: string
+          created_at?: string | null
+          id?: string
+          priority?: number | null
+          recommendation_bn?: string | null
+          recommendation_en: string
+          recommendation_hi?: string | null
+          recommendation_te?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          condition_id?: string
+          created_at?: string | null
+          id?: string
+          priority?: number | null
+          recommendation_bn?: string | null
+          recommendation_en?: string
+          recommendation_hi?: string | null
+          recommendation_te?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recommendations_condition_id_fkey"
+            columns: ["condition_id"]
+            isOneToOne: false
+            referencedRelation: "conditions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       symptom_analyses: {
         Row: {
           analyzed_at: string | null
@@ -116,6 +235,84 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      symptom_condition_mapping: {
+        Row: {
+          condition_id: string
+          created_at: string | null
+          id: string
+          probability_weight: number | null
+          symptom_id: string
+        }
+        Insert: {
+          condition_id: string
+          created_at?: string | null
+          id?: string
+          probability_weight?: number | null
+          symptom_id: string
+        }
+        Update: {
+          condition_id?: string
+          created_at?: string | null
+          id?: string
+          probability_weight?: number | null
+          symptom_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "symptom_condition_mapping_condition_id_fkey"
+            columns: ["condition_id"]
+            isOneToOne: false
+            referencedRelation: "conditions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "symptom_condition_mapping_symptom_id_fkey"
+            columns: ["symptom_id"]
+            isOneToOne: false
+            referencedRelation: "symptoms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      symptoms: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          id: string
+          name_bn: string | null
+          name_en: string
+          name_hi: string | null
+          name_te: string | null
+          severity_score: number | null
+          symptom_code: string
+          updated_at: string | null
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          name_bn?: string | null
+          name_en: string
+          name_hi?: string | null
+          name_te?: string | null
+          severity_score?: number | null
+          symptom_code: string
+          updated_at?: string | null
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          id?: string
+          name_bn?: string | null
+          name_en?: string
+          name_hi?: string | null
+          name_te?: string | null
+          severity_score?: number | null
+          symptom_code?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
     }
     Views: {
