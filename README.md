@@ -1,5 +1,5 @@
 
-**AI-Powered Health Checker**
+## AI-Powered Health Checker
 **Overview**
 
 AI-Powered Health Checker is a web application that helps users assess their health conditions based on symptoms and provides preliminary health insights.
