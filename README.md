@@ -4,13 +4,14 @@
 
 AI-Powered Health Checker is a web application that helps users assess their health conditions based on symptoms and provides preliminary health insights.
 
-## Features
--Symptom-based health assessment
--User-friendly interface
--Responsive design
--Health recommendations
--Fast and intuitive experience
+### Features
 
+- Symptom-based health assessment
+- User-friendly interface
+- Responsive design
+- Health recommendations
+- Fast and intuitive experience
+  
 **Use your preferred IDE**
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
@@ -58,6 +59,7 @@ This project is built with:
 - Tailwind CSS
 
 ## Future Enhancements
--Integration with machine learning models
--Personalized health recommendations
--Medical report generation
+
+- Integration with machine learning models
+- Personalized health recommendations
+- Medical report generation
