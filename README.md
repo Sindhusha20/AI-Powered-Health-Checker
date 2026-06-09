@@ -1,14 +1,15 @@
 
-## Project info
+**AI-Powered Health Checker**
+**Overview**
 
-**URL**: https://lovable.dev/projects/ec1534fc-8d3d-4209-bf37-333c01587b4a
+AI-Powered Health Checker is a web application that helps users assess their health conditions based on symptoms and provides preliminary health insights.
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/ec1534fc-8d3d-4209-bf37-333c01587b4a) and start prompting.
+## Features
+-Symptom-based health assessment
+-User-friendly interface
+-Responsive design
+-Health recommendations
+-Fast and intuitive experience
 
 **Use your preferred IDE**
 
@@ -56,14 +57,7 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/ec1534fc-8d3d-4209-bf37-333c01587b4a) and click on Share -> Publish.
-
-## Can I connect a custom domain to my project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Future Enhancements
+-Integration with machine learning models
+-Personalized health recommendations
+-Medical report generation
